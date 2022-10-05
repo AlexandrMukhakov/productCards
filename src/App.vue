@@ -21,7 +21,7 @@
         <input @keydown.enter="addCard" v-model="price" type="number" placeholder="Введите цену" />
       </div>
       <div class="butt">
-        <button id="but" disabled @click="addCard" type="buttton">Добавить товар</button>
+        <button id="but" @click="addCard" type="buttton">Добавить товар</button>
       </div>
       <div>
 
@@ -115,8 +115,6 @@ export default {
     'header header'
     'formCard formCard'
     "blockCards blockCards";
-
-  grid-template-columns: 332px 1fr;
 }
 
   }
