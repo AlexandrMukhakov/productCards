@@ -5,7 +5,7 @@
     </div>
     <div class="formCard">
       <div class="nameCardInput">
-        <p>Наименование товара</p>
+        <p>Наименование товара<span class="stars">&#8727;</span></p>
         <input v-model="name" type="text" placeholder="Введите наименование товара" />
       </div>
       <div class="aboutCardInput">
@@ -13,15 +13,15 @@
         <input v-model="about" type="text" placeholder="Введите описание товара" />
       </div>
       <div class="imgCardInput">
-        <p>Ссылка на изображение товара</p>
+        <p>Ссылка на изображение товара<span class="stars">&#8727;</span></p>
         <input v-model="image" type="text" placeholder="Ввежите ссылку" />
       </div>
       <div class="priceCardInput">
-        <p>Цена товара</p>
-        <input @keydown.enter="addCard" v-model="price" type="text" placeholder="Ввежите цену" />
+        <p>Цена товара<span class="stars">&#8727;</span></p>
+        <input @keydown.enter="addCard" v-model="price" type="number" placeholder="Введите цену" />
       </div>
       <div class="butt">
-        <button @click="addCard" type="buttton">Добавить товар</button>
+        <button id="but" disabled @click="addCard" type="buttton">Добавить товар</button>
       </div>
       <div>
 
@@ -31,7 +31,7 @@
     <div class="blockCards">
       <div v-for="(c, index) in prodactCards" :key="index" class="productCard">
         <div class="imgCard">
-          <img :src="c.img" />
+          <img :src="c.img ? c.img : 'https://серебро.рф/img/placeholder.png'" />
         </div>
         <div class="nameCard">
           {{c.name}}
@@ -71,6 +71,8 @@ export default {
       this.prodactCards = JSON.parse(cardsData);
     }
   },
+
+
 
   methods: {
     addCard() {
@@ -126,7 +128,7 @@ export default {
 
 .nameCardInput p {
   position: relative;
-  width: 95px;
+  width: 105px;
   height: 13px;
 
 
@@ -151,7 +153,7 @@ export default {
 }
 
 .aboutCardInput p {
-  width: 74px;
+  width: 94px;
   height: 13px;
 
 
@@ -174,7 +176,7 @@ export default {
 }
 
 .imgCardInput p {
-  width: 134px;
+  width: 154px;
   height: 13px;
 
 
@@ -199,7 +201,7 @@ export default {
 
 .priceCardInput p {
 
-  width: 53px;
+  width: 63px;
   height: 13px;
 
   font-family: 'Source Sans Pro';
@@ -314,7 +316,10 @@ export default {
 }
 
 
-
+.stars {
+  color: red;
+  font-size: 14px;
+}
 
 
 
