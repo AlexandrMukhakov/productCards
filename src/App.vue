@@ -107,6 +107,20 @@ export default {
 
 
 <style>
+
+@media screen and (max-width: 576px) {
+  .container {
+  display: grid;
+  grid-template-areas:
+    'header header'
+    'formCard formCard'
+    "blockCards blockCards";
+
+  grid-template-columns: 332px 1fr;
+}
+
+  }
+
 .header {
   grid-area: header;
   font-family: 'Source Sans Pro';
