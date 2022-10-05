@@ -1,0 +1,35 @@
+.header {
+    grid-area: header
+  }
+  
+  .formCard {
+    grid-area: formCard;
+    width: 332px;
+    height: 440px;
+  }
+  
+  .blockCards{
+    grid-area: blockCards;
+    display: flex;
+    justify-content: space-evenly;
+  }
+  
+  .container {
+    display: grid;
+    grid-template-areas: 
+            'header header'
+            'formCard blockCards';
+    
+    grid-template-columns: 332px 1fr;
+  }
+  
+  
+  
+  
+  .imgCard {
+    img {
+        width: 150px;
+        height: 150px;
+    }
+    
+  }
