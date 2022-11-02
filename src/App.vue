@@ -3,25 +3,29 @@
     <div class="header">
       Добавление товара
     </div>
+
     <div class="formCard">
       <div class="nameCardInput">
         <p>Наименование товара<span class="stars">&#8727;</span></p>
-        <input v-model="name" type="text" placeholder="Введите наименование товара" />
+        <input @keydown.enter="addCard" v-model="name" type="text" placeholder="Введите наименование товара" />
       </div>
       <div class="aboutCardInput">
         <p>Описание товара</p>
-        <input v-model="about" type="text" placeholder="Введите описание товара" />
+        <input @keydown.enter="addCard" v-model="about" type="text" placeholder="Введите описание товара" />
+      
       </div>
       <div class="imgCardInput">
         <p>Ссылка на изображение товара<span class="stars">&#8727;</span></p>
-        <input v-model="image" type="text" placeholder="Ввежите ссылку" />
+        <input @keydown.enter="addCard" v-model="image" type="text" placeholder="Ввежите ссылку" />
+       
       </div>
       <div class="priceCardInput">
         <p>Цена товара<span class="stars">&#8727;</span></p>
-        <input @keydown.enter="addCard" v-model="price" type="number" placeholder="Введите цену" />
+        <input @keydown.enter="addCard" v-model="price" type="number" placeholder="Введите цену" required/>
+       
       </div>
       <div class="butt">
-        <button id="but" @click="addCard" type="buttton">Добавить товар</button>
+        <button class="form-butt" disabled @click="addCard" id="but"  type="buttton">Добавить товар</button>
       </div>
       <div>
 
@@ -29,7 +33,7 @@
     </div>
 
     <div class="blockCards">
-      <div v-for="(c, index) in prodactCards" :key="index" class="productCard">
+      <div v-for="(c, index) in productCards" :key="index" class="productCard">
         <div class="imgCard">
           <img :src="c.img ? c.img : 'https://серебро.рф/img/placeholder.png'" />
         </div>
@@ -42,7 +46,7 @@
         <div class="priceCard">
           {{c.price}}руб.
         </div>
-        <button @click="removeCard(c)" class="buttDel" type="button">Удалить</button>
+        <button  @click="removeCard(c)" class="buttDel" type="button">Удалить</button>
       </div>
     </div>
 
@@ -52,7 +56,9 @@
 <script>
 
 
+
 export default {
+  
   name: 'App',
   data() {
     return {
@@ -60,7 +66,7 @@ export default {
       name: "",
       about: "",
       price: "",
-      prodactCards: []
+      productCards: []
     }
 
   },
@@ -68,13 +74,21 @@ export default {
   created() {
     const cardsData = localStorage.getItem("cards");
     if (cardsData) {
-      this.prodactCards = JSON.parse(cardsData);
+      this.productCards = JSON.parse(cardsData);
     }
   },
 
-
+  watch: {
+    productCards() {
+      localStorage.setItem('cards', JSON.stringify(this.productCards))
+    },
+    name: 'disButton',
+    about: 'disButton',
+    price: 'disButton'
+  },
 
   methods: {
+
     addCard() {
       const newCard = {
         img: this.image,
@@ -83,20 +97,31 @@ export default {
         price: this.price,
       };
 
-      this.prodactCards.unshift(newCard);
-      localStorage.setItem("cards", JSON.stringify(this.prodactCards));
-      this.image = "";
-      this.name = "";
-      this.about = "";
-      this.price = "";
+      this.productCards = [...this.productCards, newCard];
+      this.image = null;
+      this.name = null;
+      this.about = null;
+      this.price = null;
     },
 
     removeCard(card) {
-      this.prodactCards = this.prodactCards.filter(t => t != card);
+      this.productCards = this.productCards.filter(t => t != card);
+    },
+
+    disButton() {
+      const button = document.querySelector('.form-butt');
+      if (!this.name || !this.about || !this.price) {
+        button.setAttribute("disabled", "disabled");
+      } else {
+        button.removeAttribute('disabled');
+      }
     }
   },
+  
 
 
+
+  
 
 
 
@@ -107,17 +132,16 @@ export default {
 
 
 <style>
-
 @media screen and (max-width: 576px) {
   .container {
-  display: grid;
-  grid-template-areas:
-    'header header'
-    'formCard formCard'
-    "blockCards blockCards";
-}
-
+    display: grid;
+    grid-template-areas:
+      'header header'
+      'formCard formCard'
+      "blockCards blockCards";
   }
+
+}
 
 .header {
   grid-area: header;
@@ -259,6 +283,7 @@ export default {
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
+  cursor: pointer;
 }
 
 
